@@ -1,0 +1,11 @@
+* Prise en compte du thème du téléphone
+* Saisie des annonces améliorée
+* Définition du français comme langue par défaut
+* Noter et commenter
+* Correctifs mineurs
+
+* Uses phone theme
+* Enhanced bid selection
+* French as default language
+* Rate and review
+* Minor fixes

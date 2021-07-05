@@ -1,0 +1,9 @@
+v1.2 :
+
+* Lampe torche
+* Evaluer et commenter
+* Ajout des langues Italien et Allemand
+* Améliorations visuelles
+* Correctifs mineurs
+
+v1.1 :

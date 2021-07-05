@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="37.5" height="22.2726" viewBox="0 0 37.50 22.27" enable-background="new 0 0 37.50 22.27" xml:space="preserve">
+	<path fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 1,15.1212L 1,8.12118L 15,8.12118L 18,4.12118L 25,4.12118L 25,18.1212L 23,19.1212L 19,19.1212L 14,16.1212L 2,16.1212L 1,15.1212 Z "/>
+	<rect x="7.25" y="11.1212" fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" width="4" height="2"/>
+	<path fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 18.75,14.6212L 22.75,14.6212L 18.75,14.6212 Z "/>
+	<path fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 18.8333,11.7045L 22.8333,11.7045L 18.8333,11.7045 Z "/>
+	<path fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 18.8333,8.70451L 22.8333,8.70451L 18.8333,8.70451 Z "/>
+	<line fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="27.5" y1="11.6212" x2="36.5" y2="11.6212"/>
+	<line fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="27.1088" y1="15.9697" x2="35.8912" y2="21.2726"/>
+	<line fill="none" stroke-width="2" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="27.4081" y1="7.381" x2="35.4413" y2="0.999996"/>
+</svg>

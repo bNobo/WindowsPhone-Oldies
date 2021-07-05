@@ -1,0 +1,12 @@
+Cette application permet de compter les points à la coinche et de garder sous les yeux les informations essentielles concernant la partie en cours. Etant donné qu'à la coinche il y a presque autant de règles que de joueurs, il se peut que "Coinchons" ne calcule pas le score de la même manière que vous. Si ça vous embête vraiment, vous pouvez laisser un commentaire et je verrai ce que je peux faire.
+
+Voici un petit résumé de la façon dont mes amis, "Coinchons" et moi comptons les points :
+
+* Seul le contrat est comptabilisé dans le score
+* La belote annoncée par l'équipe prenante va à l'équipe défendante si le contrat n'est pas réalisé
+* La belote annoncée par l'équipe défendante est acquise que le contrat soit réalisé ou non
+* Contrat chuté = 160 points pour l'équipe défendante
+* Capot chuté = 250 points pour l'équipe défendante
+* Le score est multiplié par deux en cas de coinche et par quatre en cas de surcoinche
+
+Coinche is a variant of Belote, which is a famous french card game. This application is a game scorer for Coinche.

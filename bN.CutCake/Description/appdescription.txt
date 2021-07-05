@@ -1,0 +1,7 @@
+Avez-vous déjà essayer de découper un gâteau, une pizza, ou encore une tarte en 7 parts de taille identique ? C'est ce que Cut Cake va vous permettre de réaliser !
+
+Ajustez le nombre de parts avec les boutons "+" et "-", superposez le modèle de coupe au dessus du gâteau, puis découpez. 
+
+Le modèle de coupe s'ajuste automatiquement en fonction de l'orientation de votre téléphone grâce au gyroscope de ce dernier. Si votre téléphone n'est pas équipé d'un gyroscope ce n'est pas grave : vous pouvez incliner le modèle de coupe manuellement. Pour ce faire, touchez l'écran et effectuez un mouvement de rotation avec deux doigts.
+
+Si la luminosité de la pièce n'est pas suffisante, vous pouvez également allumer la torche de votre téléphone d'une simple pression sur un bouton (si votre téléphone en est équipé).

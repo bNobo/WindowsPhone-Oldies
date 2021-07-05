@@ -1,0 +1,4 @@
+Superposez un modèle par dessus le gâteau, la pizza ou la tarte à découper.
+Le modèle reste sur le plan horizontal grâce au gyroscope.
+Figez l'image pour conserver un modèle de découpe.
+Allumer la torche de votre téléphone si la luminosité est insuffisante.

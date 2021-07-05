@@ -1,0 +1,1110 @@
+﻿<Page x:Class="bN.Coinchons.MainPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:bN.Coinchons"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:core="using:bN.Core"
+	  mc:Ignorable="d"
+	  x:Name="uxMainPage">
+	<Page.DataContext>
+		<local:MainViewModel />
+	</Page.DataContext>
+	<Page.BottomAppBar>
+		<CommandBar ClosedDisplayMode="Minimal">
+			<CommandBar.PrimaryCommands>
+				<AppBarButton x:Uid="NewGameButton"
+							  Click="NewGameButton_Click" />
+				<AppBarButton x:Uid="TeamsButton"
+							  Click="TeamsButton_Click" />
+				<AppBarButton x:Uid="RateButton"
+							  Click="RateButton_Click" />				
+			</CommandBar.PrimaryCommands>
+		</CommandBar>
+	</Page.BottomAppBar>
+	<Page.Resources>
+		<local:BorderThicknessValueConverter x:Key="BorderThicknessValueConverter" />
+		<local:TargetNullValueConverter x:Key="TargetNullValueConverter" />
+		<local:BidToTextValueConverter x:Key="BidToTextValueConverter" />
+		<local:BidToFontSizeValueConverter x:Key="BidToFontSizeValueConverter" />
+		<core:VisibilityConverter x:Key="VisibilityConverter" />
+		<Thickness x:Key="BidButtonMargin">10</Thickness>
+		<Style TargetType="RadioButton">
+			<Setter Property="Background"
+					Value="Transparent" />
+			<Setter Property="FontSize"
+					Value="{ThemeResource TextStyleLargeFontSize}" />
+			<Setter Property="FontFamily"
+					Value="{ThemeResource PhoneFontFamilyNormal}" />
+
+			<Setter Property="HorizontalAlignment"
+					Value="Left" />
+			<Setter Property="VerticalAlignment"
+					Value="Top" />
+			<Setter Property="Padding"
+					Value="{ThemeResource CheckBoxAndRadioButtonTextPaddingThickness}" />
+			<Setter Property="MinWidth"
+					Value="0" />
+			<Setter Property="Width"
+					Value="76" />
+			<Setter Property="Height"
+					Value="76" />
+			<Setter Property="BorderThickness"
+					Value="8" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="RadioButton">
+
+						<Grid Background="Transparent"
+							  Width="{TemplateBinding Width}"
+							  Height="{TemplateBinding Height}"
+							  Margin="0"
+							  HorizontalAlignment="Left">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="MouseOver" />
+									<VisualState x:Name="PointerOver" />
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<PointerDownThemeAnimation Storyboard.TargetName="Container" />
+											<!--Ne pas modifier la propriété Fill sinon bug quand on relache en dehors du bouton-->
+											<!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Fill">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonPressedBackgroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>-->
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Stroke">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneBackgroundBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Stroke">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Fill">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledForegroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="CheckStates">
+									<VisualState x:Name="Checked">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Fill">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<SolidColorBrush Color="{ThemeResource PhoneForegroundColor}" />
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Unchecked" />
+									<VisualState x:Name="Indeterminate" />
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Grid x:Name="Container"
+								  Margin="0">
+
+								<Ellipse x:Name="CheckBackground"
+										 IsHitTestVisible="False"
+										 VerticalAlignment="Top"
+										 HorizontalAlignment="Left"
+										 Fill="{TemplateBinding Background}"
+										 Stroke="{TemplateBinding BorderBrush}"
+										 StrokeThickness="{Binding BorderThickness, Converter={StaticResource BorderThicknessValueConverter}, RelativeSource={RelativeSource TemplatedParent}}"
+										 Height="{TemplateBinding Height}"
+										 Width="{TemplateBinding Width}" />
+
+
+								<ContentPresenter x:Name="CheckMark"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  FontFamily="{TemplateBinding FontFamily}"
+												  FontSize="{TemplateBinding FontSize}"
+												  HorizontalAlignment="Center"
+												  VerticalAlignment="Center"
+												  Margin="0,0,0,0"
+												  Foreground="{TemplateBinding Foreground}"
+												  AutomationProperties.AccessibilityView="Raw" />
+							</Grid>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style TargetType="RadioButton"
+			   x:Key="SquareRadioButtonStyle">
+			<Setter Property="Background"
+					Value="Transparent" />
+			<Setter Property="BorderBrush"
+					Value="{ThemeResource PhoneRadioCheckBoxBorderBrush}" />
+			<Setter Property="FontSize"
+					Value="{ThemeResource TextStyleLargeFontSize}" />
+			<Setter Property="FontFamily"
+					Value="{ThemeResource PhoneFontFamilyNormal}" />
+
+			<Setter Property="HorizontalAlignment"
+					Value="Left" />
+			<Setter Property="VerticalAlignment"
+					Value="Top" />
+			<Setter Property="Padding"
+					Value="{ThemeResource CheckBoxAndRadioButtonTextPaddingThickness}" />
+			<Setter Property="MinWidth"
+					Value="0" />
+			<Setter Property="Width"
+					Value="100" />
+			<Setter Property="Height"
+					Value="50" />
+			<Setter Property="BorderThickness"
+					Value="4" />
+
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="RadioButton">
+
+						<Grid Background="Transparent"
+							  Width="{TemplateBinding Width}"
+							  Height="{TemplateBinding Height}"
+							  Margin="0"
+							  HorizontalAlignment="Left">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="MouseOver" />
+									<VisualState x:Name="PointerOver" />
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<PointerDownThemeAnimation Storyboard.TargetName="Container" />
+											<!--Ne pas modifier la propriété Fill sinon bug quand on relace en dehors du bouton-->
+											<!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Fill">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonPressedBackgroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>-->
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Stroke">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneAccentBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Container"
+																		   Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonPressedBackgroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<!--Idem pour le Foreground de la CheckMark-->
+											<!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneAccentBrush}" />
+											</ObjectAnimationUsingKeyFrames>-->
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Stroke">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Fill">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledForegroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="CheckStates">
+									<VisualState x:Name="Checked">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckBackground"
+																		   Storyboard.TargetProperty="Fill">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneForegroundBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckMark"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneBackgroundBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Unchecked" />
+									<VisualState x:Name="Indeterminate" />
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Grid x:Name="Container"
+								  Margin="0">
+
+								<Rectangle x:Name="CheckBackground"
+										   IsHitTestVisible="False"
+										   VerticalAlignment="Top"
+										   HorizontalAlignment="Left"
+										   Fill="{TemplateBinding Background}"
+										   Stroke="{TemplateBinding BorderBrush}"
+										   StrokeThickness="{Binding BorderThickness, Converter={StaticResource BorderThicknessValueConverter}, RelativeSource={RelativeSource TemplatedParent}}"
+										   Height="{TemplateBinding Height}"
+										   Width="{TemplateBinding Width}" />
+
+								<ContentPresenter x:Name="CheckMark"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  FontFamily="{TemplateBinding FontFamily}"
+												  FontSize="{TemplateBinding FontSize}"
+												  HorizontalAlignment="Center"
+												  VerticalAlignment="Center"
+												  Margin="0,0,4,4"
+												  Foreground="{TemplateBinding Foreground}"
+												  AutomationProperties.AccessibilityView="Raw" />
+							</Grid>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<!--Obligé de redéfinir le style du Button, sinon les boutons inactifs 
+		deviennent invisibles lorsqu'il redeviennent actif en cas de modification du 
+		thème (clair/foncé) alors qu'ils sont inactifs. Ajouté un storyboard sur
+		le VisualState Normal pour corriger le problème-->
+		<Style TargetType="Button">
+			<Setter Property="Background"
+					Value="Transparent" />
+			<Setter Property="BorderBrush"
+					Value="{ThemeResource PhoneForegroundBrush}" />
+			<Setter Property="Foreground"
+					Value="{ThemeResource PhoneForegroundBrush}" />
+			<Setter Property="BorderThickness"
+					Value="{ThemeResource PhoneBorderThickness}" />
+			<Setter Property="FontFamily"
+					Value="{ThemeResource PhoneFontFamilyNormal}" />
+			<Setter Property="FontWeight"
+					Value="{ThemeResource PhoneButtonFontWeight}" />
+			<Setter Property="FontSize"
+					Value="{ThemeResource TextStyleLargeFontSize}" />
+			<Setter Property="Padding"
+					Value="{ThemeResource PhoneButtonContentPadding}" />
+			<Setter Property="MinHeight"
+					Value="{ThemeResource PhoneButtonMinHeight}" />
+			<Setter Property="MinWidth"
+					Value="{ThemeResource PhoneButtonMinWidth}" />
+			<Setter Property="HorizontalAlignment"
+					Value="Left" />
+			<Setter Property="VerticalAlignment"
+					Value="Center" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Grid x:Name="Grid"
+							  Background="Transparent">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneForegroundBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+																		   Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneForegroundBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+																		   Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource PhoneBackgroundBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+
+									<VisualState x:Name="PointerOver" />
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<PointerDownThemeAnimation Storyboard.TargetName="Grid" />
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonPressedForegroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+																		   Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonPressedBackgroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+																		   Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledForegroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+																		   Storyboard.TargetProperty="BorderBrush">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+																		   Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0"
+																		Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualStateGroup.Transitions>
+										<VisualTransition From="Pressed"
+														  To="PointerOver">
+											<Storyboard>
+												<PointerUpThemeAnimation Storyboard.TargetName="Grid" />
+											</Storyboard>
+										</VisualTransition>
+										<VisualTransition From="PointerOver"
+														  To="Normal">
+											<Storyboard>
+												<PointerUpThemeAnimation Storyboard.TargetName="Grid" />
+											</Storyboard>
+										</VisualTransition>
+										<VisualTransition From="Pressed"
+														  To="Normal">
+											<Storyboard>
+												<PointerUpThemeAnimation Storyboard.TargetName="Grid" />
+											</Storyboard>
+										</VisualTransition>
+									</VisualStateGroup.Transitions>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Border x:Name="Border"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									Background="{TemplateBinding Background}"
+									Margin="{ThemeResource PhoneTouchTargetOverhang}">
+								<ContentPresenter x:Name="ContentPresenter"
+												  Foreground="{TemplateBinding Foreground}"
+												  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												  Margin="{TemplateBinding Padding}"
+												  Content="{TemplateBinding Content}"
+												  ContentTemplate="{TemplateBinding ContentTemplate}"
+												  AutomationProperties.AccessibilityView="Raw" />
+							</Border>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<DataTemplate x:Key="ButtonDataTemplate">
+			<Border Height="40"
+					Width="120">
+				<TextBlock Text="{Binding}"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center" />
+			</Border>
+		</DataTemplate>
+	</Page.Resources>
+
+	<Hub x:Name="uxMainHub">
+		<Hub.Header>
+			<TextBlock x:Uid="MainHubHeader"
+					   FontSize="30"
+					   FontWeight="SemiBold"
+					   Text="_Coinchons_"
+					   Margin="0,15,0,0" />
+		</Hub.Header>
+		<Hub.Sections>
+			<HubSection x:Uid="GameSection"
+						FontSize="{StaticResource TextStyleLargeFontSize}"
+						Header="_Game_"
+						x:Name="uxGameSection">
+				<DataTemplate>
+					<Grid>
+						<ScrollViewer>
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="1.5*" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="76" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<TextBlock x:Uid="Us"
+										   Grid.Row="0"
+										   Grid.Column="0"
+										   Grid.ColumnSpan="2"
+										   Style="{ThemeResource SubheaderTextBlockStyle}"
+										   HorizontalAlignment="Right"
+										   Margin="0,0,20,0"
+										   Foreground="{ThemeResource PhoneAccentBrush}" />
+								<TextBlock x:Uid="Them"
+										   Grid.Row="0"
+										   Grid.Column="2"
+										   Grid.ColumnSpan="2"
+										   Style="{ThemeResource SubheaderTextBlockStyle}"
+										   HorizontalAlignment="Left"
+										   Margin="20,0,0,0"
+										   Foreground="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}" />
+								<TextBlock Grid.Row="1"
+										   Grid.Column="0"
+										   Grid.ColumnSpan="2"
+										   Text="{Binding OurTotal}"
+										   FontSize="55"
+										   HorizontalAlignment="Right"
+										   VerticalAlignment="Center"
+										   Margin="0,0,20,0"
+										   Foreground="{ThemeResource PhoneAccentBrush}" />
+								<TextBlock Grid.Row="1"
+										   Grid.Column="2"
+										   Grid.ColumnSpan="2"
+										   Text="{Binding TheirTotal}"
+										   FontSize="55"
+										   HorizontalAlignment="Left"
+										   VerticalAlignment="Center"
+										   Margin="20,0,0,0"
+										   Foreground="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}" />
+
+								<RadioButton Grid.Row="3"
+											 Grid.Column="0"
+											 HorizontalAlignment="Center"
+											 GroupName="Couleurs"
+											 Padding="0"
+											 IsChecked="{Binding IsHearts, Mode=TwoWay}"
+											 Width="50"
+											 Height="50"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="RadioButton_Unchecked"
+											 BorderThickness="4">
+									<Image Source="Assets/coeur.png" />
+								</RadioButton>
+
+								<RadioButton Grid.Row="3"
+											 Grid.Column="1"
+											 HorizontalAlignment="Center"
+											 GroupName="Couleurs"
+											 IsChecked="{Binding IsClubs, Mode=TwoWay}"
+											 Width="50"
+											 Height="50"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="uxTrefleRadioButton_Unchecked"
+											 Checked="uxTrefleRadioButton_Checked"
+											 BorderThickness="4">
+									<Image Source="{Binding TrefleImage, ElementName=uxMainPage}" />
+								</RadioButton>
+
+								<RadioButton Grid.Row="3"
+											 Grid.Column="2"
+											 HorizontalAlignment="Center"
+											 GroupName="Couleurs"
+											 IsChecked="{Binding IsDiamonds, Mode=TwoWay}"
+											 Width="50"
+											 Height="50"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="RadioButton_Unchecked"
+											 BorderThickness="4">
+									<Image Source="Assets/carreau.png" />
+								</RadioButton>
+
+								<RadioButton Grid.Row="3"
+											 Grid.Column="3"
+											 HorizontalAlignment="Center"
+											 GroupName="Couleurs"
+											 IsChecked="{Binding IsSpades, Mode=TwoWay}"
+											 Width="50"
+											 Height="50"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="uxPiqueRadioButton_Unchecked"
+											 Checked="uxPiqueRadioButton_Checked"
+											 BorderThickness="4">
+									<Image Source="{Binding PiqueImage, ElementName=uxMainPage}" />
+								</RadioButton>
+								<Button Grid.Row="2"
+										Grid.Column="0"
+										Grid.ColumnSpan="2"
+										Content="{Binding OurBid, Converter={StaticResource BidToTextValueConverter}}"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Top"
+										BorderThickness="6"
+										HorizontalContentAlignment="Center"
+										FontSize="{Binding OurBid, Converter={StaticResource BidToFontSizeValueConverter}}"
+										ContentTemplate="{StaticResource ButtonDataTemplate}">
+									<Button.Flyout>
+										<Flyout Opened="uxBidFlyout_Opened">
+											<Grid>
+												<Grid.RowDefinitions>
+													<RowDefinition />
+													<RowDefinition />
+													<RowDefinition />
+													<RowDefinition />
+												</Grid.RowDefinitions>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition />
+													<ColumnDefinition />
+													<ColumnDefinition />
+												</Grid.ColumnDefinitions>
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="80"
+														Content="80"
+														Grid.Row="0"
+														Grid.Column="0"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Margin="{StaticResource BidButtonMargin}"
+														Tapped="uxBidButton_Tapped" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="90"
+														Content="90"
+														Grid.Row="0"
+														Grid.Column="1"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Margin="{StaticResource BidButtonMargin}"
+														Tapped="uxBidButton_Tapped" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="100"
+														Content="100"
+														Grid.Row="0"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="110"
+														Content="110"
+														Grid.Row="1"
+														Grid.Column="0"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="120"
+														Content="120"
+														Grid.Row="1"
+														Grid.Column="1"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="130"
+														Content="130"
+														Grid.Row="1"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="140"
+														Content="140"
+														Grid.Row="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Grid.Column="0"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="150"
+														Content="150"
+														Grid.Row="2"
+														Grid.Column="1"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="160"
+														Content="160"
+														Grid.Row="2"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding OurBidCommand}"
+														CommandParameter="250"
+														x:Uid="Capot"
+														Grid.Row="3"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Grid.Column="1"
+														Margin="{StaticResource BidButtonMargin}" />
+											</Grid>
+										</Flyout>
+									</Button.Flyout>
+								</Button>
+								<Button Grid.Row="2"
+										Grid.Column="2"
+										Grid.ColumnSpan="2"
+										Content="{Binding TheirBid, Converter={StaticResource BidToTextValueConverter}}"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Top"
+										HorizontalContentAlignment="Center"
+										BorderThickness="6"
+										FontSize="{Binding TheirBid, Converter={StaticResource BidToFontSizeValueConverter}}"
+										ContentTemplate="{StaticResource ButtonDataTemplate}">
+									<Button.Flyout>
+										<Flyout Opened="uxBidFlyout_Opened">
+											<Grid>
+												<Grid.RowDefinitions>
+													<RowDefinition />
+													<RowDefinition />
+													<RowDefinition />
+													<RowDefinition />
+												</Grid.RowDefinitions>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition />
+													<ColumnDefinition />
+													<ColumnDefinition />
+												</Grid.ColumnDefinitions>
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="80"
+														Content="80"
+														Grid.Row="0"
+														Grid.Column="0"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Margin="{StaticResource BidButtonMargin}"
+														Tapped="uxBidButton_Tapped" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="90"
+														Content="90"
+														Grid.Row="0"
+														Grid.Column="1"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Margin="{StaticResource BidButtonMargin}"
+														Tapped="uxBidButton_Tapped" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="100"
+														Content="100"
+														Grid.Row="0"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="110"
+														Content="110"
+														Grid.Row="1"
+														Grid.Column="0"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="120"
+														Content="120"
+														Grid.Row="1"
+														Grid.Column="1"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="130"
+														Content="130"
+														Grid.Row="1"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="140"
+														Content="140"
+														Grid.Row="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Grid.Column="0"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="150"
+														Content="150"
+														Grid.Row="2"
+														Grid.Column="1"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="160"
+														Content="160"
+														Grid.Row="2"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Margin="{StaticResource BidButtonMargin}" />
+												<Button Command="{Binding TheirBidCommand}"
+														CommandParameter="250"
+														x:Uid="Capot"
+														Grid.Row="3"
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Tapped="uxBidButton_Tapped"
+														Grid.Column="1"
+														Margin="{StaticResource BidButtonMargin}" />
+											</Grid>
+										</Flyout>
+									</Button.Flyout>
+								</Button>
+								<RadioButton Grid.Row="5"
+											 Grid.Column="0"
+											 Grid.ColumnSpan="2"
+											 HorizontalAlignment="Center"
+											 Style="{StaticResource SquareRadioButtonStyle}"
+											 x:Uid="Belote"
+											 IsChecked="{Binding IsBeloteOurs, Mode=TwoWay}"
+											 Width="150"
+											 Height="50"
+											 GroupName="Belote"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="RadioButton_Unchecked" />
+								<RadioButton Grid.Row="5"
+											 Grid.Column="2"
+											 Grid.ColumnSpan="2"
+											 HorizontalAlignment="Center"
+											 Style="{StaticResource SquareRadioButtonStyle}"
+											 x:Uid="Belote"
+											 IsChecked="{Binding IsBeloteTheirs, Mode=TwoWay}"
+											 Width="150"
+											 Height="50"
+											 GroupName="Belote"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="RadioButton_Unchecked" />
+								<RadioButton Grid.Row="4"
+											 Grid.Column="0"
+											 Grid.ColumnSpan="2"
+											 HorizontalAlignment="Right"
+											 Margin="0,0,-2,0"
+											 Style="{StaticResource SquareRadioButtonStyle}"
+											 x:Uid="Coinche"
+											 IsChecked="{Binding IsCoinche, Mode=TwoWay}"
+											 Width="160"
+											 Height="50"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="RadioButton_Unchecked" />
+								<RadioButton Grid.Row="4"
+											 Grid.Column="2"
+											 Grid.ColumnSpan="2"
+											 HorizontalAlignment="Left"
+											 Margin="-2,0,0,0"
+											 Style="{StaticResource SquareRadioButtonStyle}"
+											 x:Uid="Surcoinche"
+											 IsChecked="{Binding IsSurcoinche, Mode=TwoWay}"
+											 Width="160"
+											 Height="50"
+											 Tapped="RadioButton_Tapped"
+											 Unchecked="RadioButton_Unchecked" />
+
+								<Button Grid.Row="6"
+										Grid.Column="0"
+										Grid.ColumnSpan="2"
+										HorizontalAlignment="Center"
+										HorizontalContentAlignment="Center"
+										x:Uid="Fallen"
+										Command="{Binding Fallen}"
+										BorderThickness="6"
+										BorderBrush="{ThemeResource PhoneForegroundBrush}"
+										Foreground="{ThemeResource PhoneForegroundBrush}"
+										ContentTemplate="{StaticResource ButtonDataTemplate}" />
+								<Button Grid.Row="6"
+										Grid.Column="2"
+										Grid.ColumnSpan="2"
+										HorizontalAlignment="Center"
+										x:Uid="Done"
+										Command="{Binding Done}"
+										BorderThickness="6"
+										ContentTemplate="{StaticResource ButtonDataTemplate}" />
+							</Grid>
+						</ScrollViewer>
+
+						<RadioButton HorizontalAlignment="Left"
+									 VerticalAlignment="Top"
+									 Content="{Binding FirstPlayerInitials}"
+									 BorderBrush="{Binding Team13ButtonBrush, ElementName=uxMainPage}"
+									 IsChecked="{Binding DealerIsPlayer1, Mode=TwoWay}"
+									 FontWeight="Bold"
+									 FontSize="24"
+									 Foreground="{Binding Team13ButtonBrush, ElementName=uxMainPage}" />
+						<RadioButton HorizontalAlignment="Right"
+									 VerticalAlignment="Top"
+									 Content="{Binding SecondPlayerInitials}"
+									 BorderBrush="{Binding Team24ButtonBrush, ElementName=uxMainPage}"
+									 IsChecked="{Binding DealerIsPlayer2, Mode=TwoWay}"
+									 FontWeight="Bold"
+									 FontSize="24"
+									 Foreground="{Binding Team24ButtonBrush, ElementName=uxMainPage}" />
+						<RadioButton HorizontalAlignment="Right"
+									 VerticalAlignment="Bottom"
+									 Content="{Binding ThirdPlayerInitials}"
+									 BorderBrush="{Binding Team13ButtonBrush, ElementName=uxMainPage}"
+									 IsChecked="{Binding DealerIsPlayer3, Mode=TwoWay}"
+									 FontWeight="Bold"
+									 FontSize="24"
+									 Foreground="{Binding Team13ButtonBrush, ElementName=uxMainPage}" />
+						<RadioButton HorizontalAlignment="Left"
+									 VerticalAlignment="Bottom"
+									 Content="{Binding FourthPlayerInitials}"
+									 BorderBrush="{Binding Team24ButtonBrush, ElementName=uxMainPage}"
+									 IsChecked="{Binding DealerIsPlayer4, Mode=TwoWay}"
+									 FontWeight="Bold"
+									 FontSize="24"
+									 Foreground="{Binding Team24ButtonBrush, ElementName=uxMainPage}" />
+						<!--<StackPanel Background="Red"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Top"
+									Opacity="0.5">
+							<Button Content="SaveContext"
+									Click="Button_Click" />
+							<Button Content="RestoreContext"
+									Click="Button_Click" />
+						</StackPanel>-->
+					</Grid>
+				</DataTemplate>
+			</HubSection>
+			<HubSection x:Uid="ScoreSection"
+						FontSize="{StaticResource TextStyleLargeFontSize}">
+				<DataTemplate>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"
+										   MinHeight="50" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto"
+										   MinHeight="50" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBlock x:Uid="Us"
+								   Grid.Row="0"
+								   Grid.Column="0"
+								   Style="{ThemeResource SubheaderTextBlockStyle}"
+								   HorizontalAlignment="Center"
+								   Foreground="{ThemeResource PhoneAccentBrush}" />
+						<TextBlock x:Uid="Them"
+								   Grid.Row="0"
+								   Grid.Column="1"
+								   Style="{ThemeResource SubheaderTextBlockStyle}"
+								   HorizontalAlignment="Center"
+								   Foreground="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}" />
+						<ScrollViewer Grid.Row="1"
+									  Grid.Column="0"
+									  Grid.ColumnSpan="2">
+							<ItemsControl ItemsSource="{Binding History}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition />
+												<ColumnDefinition />
+											</Grid.ColumnDefinitions>
+											<TextBox Text="{Binding OurScore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+													 Grid.Column="0"
+													 HorizontalAlignment="Center"
+													 FontSize="24"
+													 Width="100"
+													 HorizontalContentAlignment="Right"
+													 InputScope="Number"
+													 GotFocus="TextBox_GotFocus" />
+											<TextBox Text="{Binding TheirScore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+													 Grid.Column="1"
+													 HorizontalAlignment="Center"
+													 FontSize="24"
+													 Width="100"
+													 HorizontalContentAlignment="Right"
+													 InputScope="Number"
+													 GotFocus="TextBox_GotFocus" />
+										</Grid>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</ScrollViewer>
+						<TextBlock Grid.Row="2"
+								   Grid.Column="0"
+								   Style="{ThemeResource HeaderTextBlockStyle}"
+								   HorizontalAlignment="Center"
+								   Text="{Binding OurTotal}"
+								   Foreground="{ThemeResource PhoneAccentBrush}" />
+						<TextBlock Grid.Row="2"
+								   Grid.Column="1"
+								   Style="{ThemeResource HeaderTextBlockStyle}"
+								   HorizontalAlignment="Center"
+								   Text="{Binding TheirTotal}"
+								   Foreground="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}" />
+					</Grid>
+				</DataTemplate>
+			</HubSection>
+			<HubSection x:Uid="TeamSection"
+						FontSize="{StaticResource TextStyleLargeFontSize}"
+						Header="_Team_"
+						x:Name="uxTeamSection">
+				<DataTemplate>
+					<ScrollViewer>
+						<Grid>
+							<Grid.Resources>
+								<DataTemplate x:Key="PlacementUsTemplate">
+									<Border BorderBrush="{ThemeResource PhoneAccentBrush}"
+											CornerRadius="33"
+											Width="50"
+											Height="50"
+											BorderThickness="4"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center">
+										<TextBlock Text="{Binding}"
+												   FontWeight="Bold"
+												   FontSize="19"
+												   Foreground="{ThemeResource PhoneAccentBrush}"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center" />
+									</Border>
+								</DataTemplate>
+								<DataTemplate x:Key="PlacementThemTemplate">
+									<Border BorderBrush="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}"
+											CornerRadius="33"
+											Width="50"
+											Height="50"
+											BorderThickness="4"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center">
+										<TextBlock Text="{Binding}"
+												   FontWeight="Bold"
+												   FontSize="19"
+												   Foreground="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Center" />
+									</Border>
+								</DataTemplate>
+							</Grid.Resources>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="20" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="10" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="10" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<TextBlock x:Uid="Us"
+									   Style="{ThemeResource SubheaderTextBlockStyle}"
+									   Foreground="{ThemeResource PhoneAccentBrush}"
+									   Grid.ColumnSpan="3" />
+							<ContentControl Grid.Row="1"
+											Grid.Column="0"
+											Content="{Binding TeamUsFirstPlayerNumber}"
+											ContentTemplate="{StaticResource PlacementUsTemplate}" />
+							<ContentControl Grid.Row="2"
+											Grid.Column="0"
+											Content="{Binding TeamUsSecondPlayerNumber}"
+											ContentTemplate="{StaticResource PlacementUsTemplate}" />
+							<AutoSuggestBox Grid.Row="1"
+											Grid.Column="2"
+											Text="{Binding TeamUsFirstPlayerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											ItemsSource="{Binding FilteredNameList}"
+											TextChanged="AutoSuggestBox_TextChanged"/>
+							<AutoSuggestBox Grid.Row="2"
+											Grid.Column="2"
+											Text="{Binding TeamUsSecondPlayerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											ItemsSource="{Binding FilteredNameList}"
+											TextChanged="AutoSuggestBox_TextChanged"/>
+							<TextBlock x:Uid="Them"
+									   Style="{ThemeResource SubheaderTextBlockStyle}"
+									   Foreground="{Binding PhoneInvertAccentBrush, ElementName=uxMainPage}"
+									   Grid.Row="4"
+									   Grid.ColumnSpan="3" />
+							<ContentControl Grid.Row="5"
+											Grid.Column="0"
+											Content="{Binding TeamThemFirstPlayerNumber}"
+											ContentTemplate="{StaticResource PlacementThemTemplate}" />
+							<ContentControl Grid.Row="6"
+											Grid.Column="0"
+											Content="{Binding TeamThemSecondPlayerNumber}"
+											ContentTemplate="{StaticResource PlacementThemTemplate}" />
+							<AutoSuggestBox Grid.Row="5"
+											Grid.Column="2"
+											Text="{Binding TeamThemFirstPlayerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											ItemsSource="{Binding FilteredNameList}"
+											TextChanged="AutoSuggestBox_TextChanged"/>
+							<AutoSuggestBox Grid.Row="6"
+											Grid.Column="2"
+											Text="{Binding TeamThemSecondPlayerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											ItemsSource="{Binding FilteredNameList}"
+											TextChanged="AutoSuggestBox_TextChanged"/>
+							<Button Grid.Row="8"
+									Grid.Column="0"
+									Grid.ColumnSpan="3"
+									Click="uxSwapTeamsButton_Click"
+									x:Uid="SwapTeamsButton"
+									HorizontalAlignment="Center">
+								
+								<!--<Image Source="Assets/upsidedown.png"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"
+									   Width="76"
+									   Height="76" />-->
+							</Button>
+							<Button Grid.Row="9"
+									Grid.Column="0"
+									Grid.ColumnSpan="3"
+									HorizontalAlignment="Center"
+									Click="uxValidTeamsButton_Click"
+									x:Uid="ValidTeamsButton"/>
+							<Button Grid.Row="9"
+									Grid.Column="2"
+									HorizontalAlignment="Right"
+									Click="uxDelButton_Click"
+									Content="Del"
+									Visibility="{Binding IsDebug, Converter={StaticResource VisibilityConverter}}" />
+						</Grid>
+					</ScrollViewer>
+				</DataTemplate>
+			</HubSection>
+		</Hub.Sections>
+	</Hub>
+</Page>

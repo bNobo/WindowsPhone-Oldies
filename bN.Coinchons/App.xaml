@@ -1,0 +1,36 @@
+﻿<Application x:Class="bN.Coinchons.App"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="using:bN.Coinchons"
+			 xmlns:controls="using:Windows.UI.Xaml.Controls">
+	<Application.Resources>
+		<ResourceDictionary>
+			<Thickness x:Key="HubSectionHeaderMarginThickness">-1,5,0,5</Thickness>
+
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<x:Boolean x:Key="IsDarkTheme">false</x:Boolean>
+					<ImageSource x:Key="TrefleImage">Assets/trefle.png</ImageSource>
+					<ImageSource x:Key="TrefleImage_Inverse">Assets/trefle_inverse.png</ImageSource>
+					<ImageSource x:Key="PiqueImage">Assets/pique.png</ImageSource>
+					<ImageSource x:Key="PiqueImage_Inverse">Assets/pique_inverse.png</ImageSource>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<x:Boolean x:Key="IsDarkTheme">true</x:Boolean>
+					<ImageSource x:Key="TrefleImage">Assets/trefle_inverse.png</ImageSource>
+					<ImageSource x:Key="TrefleImage_Inverse">Assets/trefle.png</ImageSource>
+					<ImageSource x:Key="PiqueImage">Assets/pique_inverse.png</ImageSource>
+					<ImageSource x:Key="PiqueImage_Inverse">Assets/pique.png</ImageSource>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Default">
+					<x:Boolean x:Key="IsDarkTheme">false</x:Boolean>
+					<ImageSource x:Key="TrefleImage">Assets/trefle.png</ImageSource>
+					<ImageSource x:Key="TrefleImage_Inverse">Assets/trefle_inverse.png</ImageSource>
+					<ImageSource x:Key="PiqueImage">Assets/pique.png</ImageSource>
+					<ImageSource x:Key="PiqueImage_Inverse">Assets/pique_inverse.png</ImageSource>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
+
+</Application>

@@ -1,0 +1,346 @@
+﻿<Page x:Class="bN.MoleInvasion.HubPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:bN.MoleInvasion"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:data="using:bN.MoleInvasion.Data"
+      DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+      d:DataContext="{Binding Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <!-- Grid-appropriate item template as seen in section 2 -->
+        <DataTemplate x:Key="Standard200x180TileItemTemplate">
+            <Grid Margin="0,0,9.5,9.5"
+                  Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="138*" />
+                    <RowDefinition Height="35*" />
+                </Grid.RowDefinitions>
+                <Image Source="{Binding ImagePath}"
+                       Stretch="UniformToFill"
+                       AutomationProperties.Name="{Binding Title}"
+                       Height="138.5"
+                       Width="138.5"
+                       Margin="0,0,-1,33.886"
+                       Grid.RowSpan="2" />
+                <TextBlock Text="{Binding Title}"
+                           VerticalAlignment="Bottom"
+                           Margin="10,0,-1,6"
+                           Style="{ThemeResource BaseTextBlockStyle}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StandardTripleLineItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        Margin="0,9.5,0,0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left">
+                    <Image Source="{Binding ImagePath}"
+                           Stretch="UniformToFill"
+                           AutomationProperties.Name="{Binding Title}"
+                           Height="79"
+                           Width="79" />
+                </Border>
+                <StackPanel Grid.Column="1"
+                            Margin="14.5,0,0,0">
+                    <TextBlock Text="{Binding Title}"
+                               Style="{ThemeResource ListViewItemTextBlockStyle}" />
+                    <TextBlock Text="{Binding Description}"
+                               Style="{ThemeResource ListViewItemContentTextBlockStyle}"
+                               Foreground="{ThemeResource PhoneMidBrush}" />
+                    <TextBlock Text="{Binding Subtitle}"
+                               Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StandardDoubleLineItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        Margin="0,9.5,0,0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left">
+                    <Image Source="{Binding ImagePath}"
+                           Stretch="UniformToFill"
+                           AutomationProperties.Name="{Binding Title}"
+                           Height="79"
+                           Width="79" />
+                </Border>
+                <StackPanel Grid.Column="1"
+                            Margin="14.5,0,0,0">
+                    <TextBlock Text="{Binding Title}"
+                               Style="{ThemeResource ListViewItemTextBlockStyle}" />
+                    <TextBlock Text="{Binding Subtitle}"
+                               Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <Style TargetType="HubSection">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Margin="0,0,0,-9.5"
+                                   Text="{Binding}"
+                                   FontSize="50" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background"
+                    Value="{ThemeResource ButtonBackgroundThemeBrush}" />
+            <Setter Property="Foreground"
+                    Value="{ThemeResource ButtonForegroundThemeBrush}" />
+            <Setter Property="BorderBrush"
+                    Value="{ThemeResource ButtonBorderThemeBrush}" />
+            <Setter Property="BorderThickness"
+                    Value="{ThemeResource ButtonBorderThemeThickness}" />
+            <Setter Property="Padding"
+                    Value="12,4,12,4" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="FontFamily"
+                    Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight"
+                    Value="SemiBold" />
+            <Setter Property="FontSize"
+                    Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonPointerOverForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonPressedBackgroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonPressedForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                           Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonDisabledBorderThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonDisabledForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="FocusVisualWhite"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0" />
+                                            <DoubleAnimation Storyboard.TargetName="FocusVisualBlack"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Margin="3">
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  AutomationProperties.AccessibilityView="Raw" />
+                            </Border>
+                            <Rectangle x:Name="FocusVisualWhite"
+                                       IsHitTestVisible="False"
+                                       Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}"
+                                       StrokeEndLineCap="Square"
+                                       StrokeDashArray="1,1"
+                                       Opacity="0"
+                                       StrokeDashOffset="1.5" />
+                            <Rectangle x:Name="FocusVisualBlack"
+                                       IsHitTestVisible="False"
+                                       Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}"
+                                       StrokeEndLineCap="Square"
+                                       StrokeDashArray="1,1"
+                                       Opacity="0"
+                                       StrokeDashOffset="0.5" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <MediaElement x:Name="music"
+                      AudioCategory="GameMedia"
+                      Source="Sounds/SweetReactions.mp3"
+                      Visibility="Collapsed" />
+        <Button />
+        <Hub x:Name="Hub"
+             Background="{ThemeResource HubBackgroundImageBrush}">
+            <HubSection x:Uid="GameHubSection"
+                        Header="GAME"
+                        DataContext="{Binding Groups}">
+                <DataTemplate>
+                    <Button BorderThickness="0"
+                            Background="Transparent">
+                        <Grid>
+                            <Image Source="Images/StartGame.png"
+                                   Stretch="UniformToFill"
+                                   AutomationProperties.Name="StartGame"
+                                   Height="200"
+                                   Width="200" />
+                            <TextBlock x:Uid="StartGame"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,160,0,0"
+                                       Style="{ThemeResource BaseTextBlockStyle}" />
+                        </Grid>
+                    </Button>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection x:Uid="HubSection2"
+                        Header="SECTION 2"
+                        Width="Auto"
+                        DataContext="{Binding Groups[0]}">
+                <DataTemplate>
+                    <GridView Margin="0,9.5,0,0"
+                              ItemsSource="{Binding Items}"
+                              AutomationProperties.AutomationId="ItemGridView"
+                              AutomationProperties.Name="Items In Group"
+                              ItemTemplate="{StaticResource Standard200x180TileItemTemplate}"
+                              SelectionMode="None"
+                              IsItemClickEnabled="True"
+                              ItemClick="ItemView_ItemClick"
+                              ContinuumNavigationTransitionInfo.ExitElementContainer="True">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection x:Uid="HubSection3"
+                        Header="SECTION 3"
+                        DataContext="{Binding Groups[1]}">
+                <DataTemplate>
+                    <ListView AutomationProperties.AutomationId="ItemListViewSection3"
+                              AutomationProperties.Name="Items In Group"
+                              SelectionMode="None"
+                              IsItemClickEnabled="True"
+                              ItemsSource="{Binding Items}"
+                              ItemTemplate="{StaticResource StandardTripleLineItemTemplate}"
+                              ItemClick="ItemView_ItemClick"
+                              ContinuumNavigationTransitionInfo.ExitElementContainer="True">
+                    </ListView>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection x:Uid="HubSection4"
+                        Header="SECTION 4"
+                        DataContext="{Binding Groups[2]}">
+                <DataTemplate>
+                    <ListView AutomationProperties.AutomationId="ItemListViewSection4"
+                              AutomationProperties.Name="Items In Group"
+                              SelectionMode="None"
+                              IsItemClickEnabled="True"
+                              ItemsSource="{Binding Items}"
+                              ItemClick="ItemView_ItemClick"
+                              ContinuumNavigationTransitionInfo.ExitElementContainer="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,19">
+                                    <TextBlock Text="{Binding Title}"
+                                               Style="{ThemeResource ListViewItemTextBlockStyle}" />
+                                    <TextBlock Text="{Binding Subtitle}"
+                                               Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DataTemplate>
+            </HubSection>
+
+            <!--<HubSection x:Uid="HubSection5"
+                        Header="SECTION 5"
+                        DataContext="{Binding Groups[3]}"
+                        HeaderTemplate="{ThemeResource HubSectionHeaderTemplate}">
+                <DataTemplate>
+                    <ListView AutomationProperties.AutomationId="ItemListViewSection5"
+                              AutomationProperties.Name="Items In Group"
+                              SelectionMode="None"
+                              IsItemClickEnabled="True"
+                              ItemsSource="{Binding Items}"
+                              ItemTemplate="{StaticResource StandardDoubleLineItemTemplate}"
+                              ItemClick="ItemView_ItemClick"
+                              ContinuumNavigationTransitionInfo.ExitElementContainer="True">
+                    </ListView>
+                </DataTemplate>
+            </HubSection>-->
+        </Hub>
+    </Grid>
+</Page>

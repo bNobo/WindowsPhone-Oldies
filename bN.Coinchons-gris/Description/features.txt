@@ -1,0 +1,6 @@
+* Consultez et modifiez le tableau des scores à tout moment en faisant glisser l'écran vers la gauche
+* En début de partie sélectionnez le jeton du donneur en appuyant sur l'un des boutons J1, J2, J3 ou J4
+* A chaque tour, choisissez le contrat ainsi que la couleur annoncée
+* En cas de coinche ou surcoinche, sélectionnez le bouton éponyme
+* Lorsque la belote est annoncée, cochez le bouton correspondant pour qu'elle soit comptabilisée à la fin du tour
+* A la fin du tour, appuyez sur "Fait" si le contrat est réalisé, ou sur "Chuté" sinon. L'application calcule alors automatiquement le score et déplace le jeton du donneur sur le joueur suivant.

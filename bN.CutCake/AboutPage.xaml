@@ -1,0 +1,70 @@
+﻿<Page x:Class="bN.CutCake.AboutPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:local="using:bN.CutCake"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  mc:Ignorable="d"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Grid x:Name="LayoutRoot">
+
+		<Grid.ChildrenTransitions>
+			<TransitionCollection>
+				<EntranceThemeTransition />
+			</TransitionCollection>
+		</Grid.ChildrenTransitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<ProgressBar IsIndeterminate="True"
+					 HorizontalAlignment="Stretch"
+					 x:Name="uxLoadingBar"
+					 Visibility="Collapsed"
+					 IsEnabled="False"
+					 Grid.Row="0" />
+
+		<!-- Title Panel -->
+		<StackPanel Grid.Row="1"
+					Margin="80,0,0,0">
+			<TextBlock Style="{ThemeResource TitleTextBlockStyle}"
+					   Margin="0,12,0,0"
+					   x:Uid="ApplicationTitle"
+					   Foreground="{StaticResource CheckBoxForegroundThemeBrush}" />
+			<TextBlock Margin="0,-6.5,0,26.5"
+					   Style="{ThemeResource HeaderTextBlockStyle}"
+					   CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"
+					   x:Uid="About"
+					   Foreground="{StaticResource ForegroundBrush}" />
+		</StackPanel>
+
+		<Grid Grid.Row="2"
+			  x:Name="ContentRoot"
+			  Margin="80,9.5,100,0">
+			<TextBlock x:Uid="AboutText"
+					   TextWrapping="WrapWholeWords"
+					   x:Name="uxAboutText" />
+			<Button HorizontalAlignment="Left"
+					VerticalAlignment="Bottom"
+					Margin="0,0,0,30"
+					Click="Donate1_Click"
+					x:Name="uxDonate1Button" />
+			<Button HorizontalAlignment="Center"
+					VerticalAlignment="Bottom"
+					Margin="0,0,0,30"
+					x:Name="uxDonate2Button"
+					Click="uxDonate2Button_Click" />
+			<Button HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Margin="0,0,0,30"
+					x:Name="uxDonate5Button"
+					Click="uxDonate5Button_Click" />
+		</Grid>
+
+		
+	</Grid>
+</Page>
